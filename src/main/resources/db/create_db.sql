@@ -13,14 +13,14 @@ create table if not exists movieland.movie
 	id serial not null
 		constraint movie_pkey
 			primary key,
-	name text not null,
+	nameRussian text not null,
 	original_name text not null,
 	issue_date date not null,
 	description text not null,
 	price numeric(8,2) not null,
 	rating numeric(4,2) not null,
 	poster_link text,
-	unique (name, issue_date, poster_link)
+	unique (nameRussian, issue_date, poster_link)
 );
 
 alter table movieland.movie owner to ufimjmvmkfcrku;
@@ -31,7 +31,7 @@ create table if not exists movieland.genre
   id serial not null
     constraint genre_pkey
       primary key,
-  name text not null unique
+  nameRussian text not null unique
 );
 
 alter table movieland.genre owner to ufimjmvmkfcrku;
@@ -42,7 +42,7 @@ create table if not exists movieland.country
   id serial not null
     constraint country_pkey
       primary key,
-  name text not null unique
+  nameRussian text not null unique
 );
 
 alter table movieland.country owner to ufimjmvmkfcrku;
