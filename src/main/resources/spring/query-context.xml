@@ -7,4 +7,8 @@
     <bean id="getAllMovies" class="java.lang.String">
         <constructor-arg value="SELECT id, name, original_name, issue_date, rating, price, poster_link FROM movieland.movie;"/>
     </bean>
+
+    <bean id="getRandomMovies" class="java.lang.String">
+        <constructor-arg value="SELECT id, name, original_name, issue_date, rating, price, poster_link FROM movieland.movie order by random(), id LIMIT ?;" />
+    </bean>
 </beans>

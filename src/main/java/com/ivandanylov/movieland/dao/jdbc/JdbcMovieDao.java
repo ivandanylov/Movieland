@@ -4,6 +4,7 @@ import com.ivandanylov.movieland.dao.MovieDao;
 import com.ivandanylov.movieland.dao.jdbc.mapper.MovieRowMapper;
 import com.ivandanylov.movieland.entity.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -21,6 +22,7 @@ public class JdbcMovieDao implements MovieDao {
     }
 
     @Autowired
+    @Qualifier("getAllMovies")
     public void setGetAllSql(String getAllSql) {
         this.getAllSql = getAllSql;
     }
