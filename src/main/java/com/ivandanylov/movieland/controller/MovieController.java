@@ -13,15 +13,22 @@ import org.springframework.web.bind.annotation.RestController;
 public class MovieController {
     private MovieService movieService;
 
-    @Autowired
-    public void setMovieService(MovieService movieService) {
-        this.movieService = movieService;
-    }
-
     @RequestMapping(path = "/movie", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public String getAll() throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
 
         return objectMapper.writeValueAsString(movieService.getAll());
+    }
+
+    @RequestMapping(path = "/movie/random", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public String getRandom() throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        return objectMapper.writeValueAsString(movieService.getRandom(3));
+    }
+
+    @Autowired
+    public void setMovieService(MovieService movieService) {
+        this.movieService = movieService;
     }
 }

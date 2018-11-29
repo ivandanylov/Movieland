@@ -1,10 +1,10 @@
 package com.ivandanylov.movieland.dao.jdbc;
 
+import com.ivandanylov.movieland.config.yaml.YamlQuery;
 import com.ivandanylov.movieland.dao.MovieDao;
 import com.ivandanylov.movieland.dao.jdbc.mapper.MovieRowMapper;
 import com.ivandanylov.movieland.entity.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -13,8 +13,18 @@ import java.util.List;
 @Repository("jdbcMovieDao")
 public class JdbcMovieDao implements MovieDao {
     private JdbcTemplate jdbcTemplate;
-    private String getAllSql;
+    private YamlQuery query;
     private MovieRowMapper movieRowMapper;
+
+    @Override
+    public List<Movie> getAll() {
+        return jdbcTemplate.query(query.getGetAllMovies(), movieRowMapper);
+    }
+
+    @Override
+    public List<Movie> getRandom(int count) {
+        return jdbcTemplate.query(query.getGetRandomMovies(), movieRowMapper, count);
+    }
 
     @Autowired
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
@@ -22,18 +32,12 @@ public class JdbcMovieDao implements MovieDao {
     }
 
     @Autowired
-    @Qualifier("getAllMovies")
-    public void setGetAllSql(String getAllSql) {
-        this.getAllSql = getAllSql;
-    }
-
-    @Autowired
     public void setMovieRowMapper(MovieRowMapper movieRowMapper) {
         this.movieRowMapper = movieRowMapper;
     }
 
-    @Override
-    public List<Movie> getAll() {
-        return jdbcTemplate.query(getAllSql, movieRowMapper);
+    @Autowired
+    public void setQuery(YamlQuery query) {
+        this.query = query;
     }
 }

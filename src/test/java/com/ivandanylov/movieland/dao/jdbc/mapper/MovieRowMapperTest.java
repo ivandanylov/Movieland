@@ -1,41 +1,90 @@
 package com.ivandanylov.movieland.dao.jdbc.mapper;
 
+import com.ivandanylov.movieland.config.ApplicationTestConfig;
+import com.ivandanylov.movieland.config.yaml.YamlTestMovieland;
 import com.ivandanylov.movieland.entity.Movie;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 
-import java.sql.Date;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.time.LocalDate;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 @DisplayName("Movie row mapper test")
+@SpringJUnitWebConfig
+@ContextConfiguration(classes = {ApplicationTestConfig.class})
 public class MovieRowMapperTest {
+    private YamlTestMovieland hsqldbSqlStatements;
+
+    @Autowired
+    private void setHsqldbSqlStatements(YamlTestMovieland hsqldbSqlStatements) {
+        this.hsqldbSqlStatements = hsqldbSqlStatements;
+    }
+
+    private void before() throws ClassNotFoundException, SQLException {
+        Class.forName("org.hsqldb.jdbc.JDBCDriver");
+        initDatabase();
+    }
+
+    private void after() throws SQLException {
+        try (Connection connection = getConnection();
+             Statement statement = connection.createStatement()) {
+            statement.executeUpdate(hsqldbSqlStatements
+                    .getMovieland()
+                    .getMovie()
+                    .getDropTableSql());
+            connection.commit();
+        }
+    }
+
+    private static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection("jdbc:hsqldb:mem:movieland", "SA", "");
+    }
+
+    private void initDatabase() throws SQLException {
+        try (Connection connection = getConnection();
+             Statement statement = connection.createStatement()) {
+            statement.execute(hsqldbSqlStatements
+                    .getMovieland()
+                    .getMovie()
+                    .getCreateTableSql());
+            connection.commit();
+            statement.executeUpdate(hsqldbSqlStatements
+                    .getMovieland()
+                    .getMovie()
+                    .getInsertSql());
+            connection.commit();
+        }
+    }
+
     @Test
-    public void testMapRow() throws Exception {
+    void testMapRow() throws SQLException, ClassNotFoundException {
         MovieRowMapper movieRowMapper = new MovieRowMapper();
         LocalDate localDate = LocalDate.of(1980, 4, 9);
 
-        ResultSet resultSet = mock(ResultSet.class);
-        when(resultSet.getInt("id")).thenReturn(1);
-        when(resultSet.getString("name")).thenReturn("Movie name");
-        when(resultSet.getString("original_name")).thenReturn("Original movie name");
-        when(resultSet.getDate("issue_date")).thenReturn(Date.valueOf(localDate));
-        when(resultSet.getDouble("price")).thenReturn(123.45);
-        when(resultSet.getDouble("rating")).thenReturn(9.8);
-        when(resultSet.getString("poster_link")).thenReturn("https://link.com/image.jpg");
+        before();
 
-        Movie actualMovie = movieRowMapper.mapRow(resultSet, 1);
+        try (Connection connection = getConnection();
+             Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery(hsqldbSqlStatements
+                    .getMovieland()
+                    .getMovie()
+                    .getGetAllSql());
+            resultSet.next();
 
-        Assertions.assertEquals(1, actualMovie.getId());
-        Assertions.assertEquals("Movie name", actualMovie.getNameRussian());
-        Assertions.assertEquals("Original movie name", actualMovie.getNameNative());
-        Assertions.assertEquals(localDate.getYear(), actualMovie.getYearOfRelease());
-        Assertions.assertEquals(123.45, actualMovie.getPrice());
-        Assertions.assertEquals(9.8, actualMovie.getRating());
-        Assertions.assertEquals("https://link.com/image.jpg", actualMovie.getPicturePath());
+            Movie actualMovie = movieRowMapper.mapRow(resultSet, 1);
+
+            assert actualMovie != null;
+            Assertions.assertEquals(1, actualMovie.getId());
+            Assertions.assertEquals("Movie name", actualMovie.getNameRussian());
+            Assertions.assertEquals("Original movie name", actualMovie.getNameNative());
+            Assertions.assertEquals(localDate.getYear(), actualMovie.getYearOfRelease());
+            Assertions.assertEquals(123.45, actualMovie.getPrice());
+            Assertions.assertEquals(9.8, actualMovie.getRating());
+            Assertions.assertEquals("https://link.com/image.jpg", actualMovie.getPicturePath());
+        }
+
+        after();
     }
 }

@@ -1,7 +1,5 @@
 package com.ivandanylov.movieland.entity;
 
-import java.time.LocalDate;
-
 public class Movie {
     private int id;
     private String nameRussian;
@@ -13,14 +11,82 @@ public class Movie {
 
     public Movie() {}
 
-    public Movie(int id, String nameRussian, String nameNative, int yearOfRelease, double price, double rating, String picturePath) {
-        this.id = id;
-        this.nameRussian = nameRussian;
-        this.nameNative = nameNative;
-        this.yearOfRelease = yearOfRelease;
-        this.price = price;
-        this.rating = rating;
-        this.picturePath = picturePath;
+    @Override
+    public String toString() {
+        return "Movie{" +
+                "id=" + id +
+                ", nameRussian='" + nameRussian + '\'' +
+                ", nameNative='" + nameNative + '\'' +
+                ", yearOfRelease=" + yearOfRelease +
+                ", price=" + price +
+                ", rating=" + rating +
+                ", picturePath='" + picturePath + '\'' +
+                '}';
+    }
+
+    public static class Builder {
+        private int id;
+        private String nameRussian;
+        private String nameNative;
+        private int yearOfRelease;
+        private double price;
+        private double rating;
+        private String picturePath;
+
+        public Movie build() {
+            Movie movie = new Movie();
+            movie.id = id;
+            movie.nameRussian = nameRussian;
+            movie.nameNative = nameNative;
+            movie.yearOfRelease = yearOfRelease;
+            movie.price = price;
+            movie.rating = rating;
+            movie.picturePath = picturePath;
+
+            return movie;
+        }
+
+        public Builder id(int value) {
+            this.id = value;
+
+            return this;
+        }
+
+        public Builder nameRussian(String value) {
+            this.nameRussian = value;
+
+            return this;
+        }
+
+        public Builder nameNative(String value) {
+            this.nameNative = value;
+
+            return this;
+        }
+
+        public Builder yearOfRelease(int value) {
+            this.yearOfRelease = value;
+
+            return this;
+        }
+
+        public Builder price(double value) {
+            this.price = value;
+
+            return this;
+        }
+
+        public Builder rating(double value) {
+            this.rating = value;
+
+            return this;
+        }
+
+        public Builder picturePath(String value) {
+            this.picturePath = value;
+
+            return this;
+        }
     }
 
     public int getId() {
@@ -77,18 +143,5 @@ public class Movie {
 
     public void setPicturePath(String picturePath) {
         this.picturePath = picturePath;
-    }
-
-    @Override
-    public String toString() {
-        return "Movie{" +
-                "id=" + id +
-                ", nameRussian='" + nameRussian + '\'' +
-                ", nameNative='" + nameNative + '\'' +
-                ", yearOfRelease=" + yearOfRelease +
-                ", price=" + price +
-                ", rating=" + rating +
-                ", picturePath='" + picturePath + '\'' +
-                '}';
     }
 }
