@@ -12,13 +12,18 @@ import java.util.List;
 public class DefaultMovieService implements MovieService {
     private MovieDao movieDao;
 
-    @Autowired
-    public void setJdbcMovieDao(MovieDao movieDao) {
-        this.movieDao = movieDao;
-    }
-
     @Override
     public List<Movie> getAll() {
         return movieDao.getAll();
+    }
+
+    @Override
+    public List<Movie> getRandom(int count) {
+        return movieDao.getRandom(count);
+    }
+
+    @Autowired
+    public void setJdbcMovieDao(MovieDao movieDao) {
+        this.movieDao = movieDao;
     }
 }
