@@ -1,0 +1,34 @@
+database:
+  connection:
+    urlEnvironmentVariableName: "JDBC_DATABASE_URL"
+    driverClassName: "org.postgresql.Driver"
+  query:
+    getAllMovies: >-
+      SELECT
+        id,
+        name,
+        original_name,
+        issue_date,
+        rating,
+        price,
+        poster_link
+      FROM
+          movieland.movie;
+
+    getRandomMovies: >-
+      SELECT
+        id,
+        name,
+        original_name,
+        issue_date,
+        rating,
+        price,
+        poster_link
+      FROM
+        movieland.movie
+      ORDER BY
+        random(),
+        id
+      LIMIT ?;
+  config:
+    randomRowsCount: 3
