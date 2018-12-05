@@ -18,16 +18,23 @@ public class DefaultMovieService implements MovieService {
 
     @Override
     public List<Movie> getAll() {
-        logger.info("[movieland] Start run getAll from movieService");
+        logger.debug("[movieland] Start run getAll from movieService");
 
         return movieDao.getAll();
     }
 
     @Override
     public List<Movie> getRandom() {
-        logger.info("[movieland] Start run getRandom from movieService");
+        logger.debug("[movieland] Start run getRandom from movieService");
 
         return movieDao.getRandom();
+    }
+
+    @Override
+    public List<Movie> getByGenreId(int genreId) {
+        logger.debug(String.format("[movieland] Start run getByGenreId from movieService with genreId = %d", genreId));
+
+        return movieDao.getByGenreId(genreId);
     }
 
     @Autowired
@@ -36,6 +43,6 @@ public class DefaultMovieService implements MovieService {
 
         this.movieDao = movieDao;
 
-        logger.info("[movieland] setMovieDao autowired");
+        logger.debug("[movieland] setMovieDao autowired");
     }
 }

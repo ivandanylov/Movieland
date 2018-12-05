@@ -18,7 +18,7 @@ public class DefaultGenreService implements GenreService {
 
     @Override
     public List<Genre> getAll() {
-        logger.info("[movieland] Start run getAll from genreService");
+        logger.debug("[movieland] Start run getAll from genreService");
 
         return genreDao.getAll();
     }
@@ -29,6 +29,6 @@ public class DefaultGenreService implements GenreService {
 
         this.genreDao = genreDao;
 
-        logger.info("[movieland] setGenreDao autowired");
+        logger.debug("[movieland] setGenreDao autowired");
     }
 }

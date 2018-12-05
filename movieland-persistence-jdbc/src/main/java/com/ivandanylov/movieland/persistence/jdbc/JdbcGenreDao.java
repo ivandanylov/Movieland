@@ -22,7 +22,7 @@ public class JdbcGenreDao implements GenreDao {
 
     @Override
     public List<Genre> getAll() {
-        logger.info(String.format("[movieland] Get all genres sql = '%s'", getAllGenresSql));
+        logger.debug(String.format("[movieland] Get all genres sql = '%s'", getAllGenresSql));
 
         return jdbcTemplate.query(getAllGenresSql, movieRowMapper);
     }

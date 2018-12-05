@@ -35,5 +35,20 @@ database:
         name
       FROM
         movieland.genre;
+    getMoviesByGenreId: >-
+      SELECT
+        m.id,
+        m.name,
+        m.original_name,
+        m.issue_date,
+        m.rating,
+        m.price,
+        m.poster_link
+      FROM
+        movieland.genre g
+        JOIN movieland.bridge_movie_genre mg ON g.id = mg.genre_id
+        JOIN movieland.movie m ON mg.movie_id = m.id
+      WHERE
+        g.id = ?;
   config:
     randomMovieRowsCount: 3

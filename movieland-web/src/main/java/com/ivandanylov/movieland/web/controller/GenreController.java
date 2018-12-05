@@ -20,7 +20,7 @@ public class GenreController {
 
     @RequestMapping(path = "/genre", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<Genre> getAll() {
-        logger.info("[movieland] Controller path /v1/genre");
+        logger.debug("[movieland] Controller path /v1/genre");
 
         return genreService.getAll();
     }
@@ -31,6 +31,6 @@ public class GenreController {
 
         this.genreService = genreService;
 
-        logger.info("[movieland] setGenreService autowired");
+        logger.debug("[movieland] setGenreService autowired");
     }
 }
