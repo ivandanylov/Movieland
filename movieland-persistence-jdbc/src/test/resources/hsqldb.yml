@@ -13,6 +13,28 @@ database:
       )
     dropTableSql: DROP TABLE movie
     insertSql: >-
-      INSERT INTO movie VALUES (1,'Movie name', 'Original movie name', DATE '1980-04-09', 123.45, 9.8, 'https://link.com/image.jpg')
+      INSERT INTO movie VALUES (
+        1,
+        'Movie name',
+        'Original movie name',
+        DATE '1980-04-09',
+        123.45,
+        9.8,
+        'https://link.com/image.jpg'
+      )
     getAllSql: SELECT * FROM movie
     getRandomSql: getRandomSql
+  genre:
+    createTableSql: >-
+      CREATE TABLE genre(
+        id INT NOT NULL,
+        name VARCHAR(50) NOT NULL,
+        PRIMARY KEY (id)
+      )
+    dropTableSql: DROP TABLE genre
+    insertSql: >-
+      INSERT INTO genre VALUES (
+        1,
+        'Genre name'
+      )
+    getAllSql: SELECT * FROM genre

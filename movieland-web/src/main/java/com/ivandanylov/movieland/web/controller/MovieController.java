@@ -44,5 +44,7 @@ public class MovieController {
         logger.debug(String.format("[movieland] Movie service is null = %b", movieService == null));
 
         this.movieService = movieService;
+
+        logger.info("[movieland] setMovieService autowired");
     }
 }

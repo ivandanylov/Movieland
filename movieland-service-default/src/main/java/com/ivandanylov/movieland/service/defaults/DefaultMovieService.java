@@ -33,8 +33,9 @@ public class DefaultMovieService implements MovieService {
     @Autowired
     public void setMovieDao(MovieDao movieDao) {
         logger.debug(String.format("[movieland] Autowired movieDao is null = %b", movieDao == null));
+
         this.movieDao = movieDao;
 
-        logger.info("[movieland] setJdbcMovieDao autowired");
+        logger.info("[movieland] setMovieDao autowired");
     }
 }

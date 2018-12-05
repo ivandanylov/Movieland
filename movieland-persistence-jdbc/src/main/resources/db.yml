@@ -14,7 +14,6 @@ database:
         poster_link
       FROM
           movieland.movie;
-
     getRandomMovies: >-
       SELECT
         id,
@@ -30,5 +29,11 @@ database:
         random(),
         id
       LIMIT ?;
+    getAllGenres: >-
+      SELECT
+        id,
+        name
+      FROM
+        movieland.genre;
   config:
-    randomRowsCount: 3
+    randomMovieRowsCount: 3

@@ -24,7 +24,7 @@ public class JdbcMovieDao implements MovieDao {
 
     @Override
     public List<Movie> getAll() {
-        logger.info(String.format("[movieland] Get all movie sql = '%s'", getAllMoviesSql));
+        logger.info(String.format("[movieland] Get all movies sql = '%s'", getAllMoviesSql));
 
         return jdbcTemplate.query(getAllMoviesSql, movieRowMapper);
     }
@@ -57,7 +57,7 @@ public class JdbcMovieDao implements MovieDao {
         this.getRandomMoviesSql = getRandomMoviesSql;
     }
 
-    @Value("${database.config.randomRowsCount:5}")
+    @Value("${database.config.randomMovieRowsCount:5}")
     public void setRandomRowsCount(int randomRowsCount) {
         this.randomRowsCount = randomRowsCount;
     }
