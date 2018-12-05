@@ -1,5 +1,5 @@
 # Movieland
-This project is a rest service online movie store.
+This project is a rest service for online movie store.
 
 The site contains 3 roles: admin, user, guest.
 
