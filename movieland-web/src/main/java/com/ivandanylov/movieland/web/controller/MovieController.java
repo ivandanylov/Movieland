@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,25 +19,32 @@ public class MovieController {
 
     private MovieService movieService;
 
+    @RequestMapping(path = "/test", method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
+    public String getRoot() {
+        logger.debug("[movieland] Controller path /v1/test");
+
+        return "Controller alive";
+    }
+
     @RequestMapping(path = "/movie", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<Movie> getAll() {
-        logger.info("[movieland] Controller path /v1/movie");
+        logger.debug("[movieland] Controller path /v1/movie");
 
         return movieService.getAll();
     }
 
     @RequestMapping(path = "/movie/random", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<Movie> getRandom() {
-        logger.info("[movieland] Controller path /v1/movie/random");
+        logger.debug("[movieland] Controller path /v1/movie/random");
 
         return movieService.getRandom();
     }
 
-    @RequestMapping(path = "/test", method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
-    public String getRoot() {
-        logger.info("[movieland] Controller path /v1/test");
+    @RequestMapping(path = "/movie/genre/{genreId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public List<Movie> getByGenreId(@PathVariable int genreId) {
+        logger.debug(String.format("[movieland] Controller path /v1/movie/genre/%d", genreId));
 
-        return "Test";
+        return movieService.getByGenreId(genreId);
     }
 
     @Autowired
@@ -45,6 +53,6 @@ public class MovieController {
 
         this.movieService = movieService;
 
-        logger.info("[movieland] setMovieService autowired");
+        logger.debug("[movieland] setMovieService autowired");
     }
 }

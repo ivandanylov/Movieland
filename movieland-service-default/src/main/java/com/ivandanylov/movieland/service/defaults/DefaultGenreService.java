@@ -14,11 +14,11 @@ import java.util.List;
 public class DefaultGenreService implements GenreService {
     private final static Logger logger = LoggerFactory.getLogger(DefaultGenreService.class);
 
-    GenreDao genreDao;
+    private GenreDao genreDao;
 
     @Override
     public List<Genre> getAll() {
-        logger.info("[movieland] Start run getAll from genreService");
+        logger.debug("[movieland] Start run getAll from genreService");
 
         return genreDao.getAll();
     }
@@ -29,6 +29,6 @@ public class DefaultGenreService implements GenreService {
 
         this.genreDao = genreDao;
 
-        logger.info("[movieland] setGenreDao autowired");
+        logger.debug("[movieland] setGenreDao autowired");
     }
 }

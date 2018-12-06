@@ -20,21 +20,30 @@ public class JdbcMovieDao implements MovieDao {
     private MovieRowMapper movieRowMapper;
     private String getAllMoviesSql;
     private String getRandomMoviesSql;
+    private String getMoviesByGenreIdSql;
     private int randomRowsCount;
 
     @Override
     public List<Movie> getAll() {
-        logger.info(String.format("[movieland] Get all movies sql = '%s'", getAllMoviesSql));
+        logger.debug(String.format("[movieland] Get all movies sql = '%s'", getAllMoviesSql));
 
         return jdbcTemplate.query(getAllMoviesSql, movieRowMapper);
     }
 
     @Override
     public List<Movie> getRandom() {
-        logger.info(String.format("[movieland] Get random movie sql = '%s' with randomRowsCount = %d",
+        logger.debug(String.format("[movieland] Get random movie sql = '%s' with randomRowsCount = %d",
                 getRandomMoviesSql, randomRowsCount));
 
         return jdbcTemplate.query(getRandomMoviesSql, movieRowMapper, randomRowsCount);
+    }
+
+    @Override
+    public List<Movie> getByGenreId(int genreId) {
+        logger.debug(String.format("[movieland] Get movies by genre id sql = '%s' with genreId = %d",
+                getMoviesByGenreIdSql, genreId));
+
+        return jdbcTemplate.query(getMoviesByGenreIdSql, movieRowMapper, genreId);
     }
 
     @Autowired
@@ -60,5 +69,10 @@ public class JdbcMovieDao implements MovieDao {
     @Value("${database.config.randomMovieRowsCount:5}")
     public void setRandomRowsCount(int randomRowsCount) {
         this.randomRowsCount = randomRowsCount;
+    }
+
+    @Value("${database.query.getMoviesByGenreId}")
+    public void setGetMoviesByGenreIdSql(String getMoviesByGenreIdSql) {
+        this.getMoviesByGenreIdSql = getMoviesByGenreIdSql;
     }
 }
