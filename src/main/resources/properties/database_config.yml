@@ -1,4 +1,0 @@
-application:
-  database:
-    urlEnvironmentVariableName: "JDBC_DATABASE_URL"
-    driverClassName: "org.postgresql.Driver"
