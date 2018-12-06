@@ -18,23 +18,31 @@ public class DefaultMovieService implements MovieService {
 
     @Override
     public List<Movie> getAll() {
-        logger.info("[movieland] Start run getAll from movieService");
+        logger.debug("[movieland] Start run getAll from movieService");
 
         return movieDao.getAll();
     }
 
     @Override
     public List<Movie> getRandom() {
-        logger.info("[movieland] Start run getRandom from movieService");
+        logger.debug("[movieland] Start run getRandom from movieService");
 
         return movieDao.getRandom();
+    }
+
+    @Override
+    public List<Movie> getByGenreId(int genreId) {
+        logger.debug(String.format("[movieland] Start run getByGenreId from movieService with genreId = %d", genreId));
+
+        return movieDao.getByGenreId(genreId);
     }
 
     @Autowired
     public void setMovieDao(MovieDao movieDao) {
         logger.debug(String.format("[movieland] Autowired movieDao is null = %b", movieDao == null));
+
         this.movieDao = movieDao;
 
-        logger.info("[movieland] setJdbcMovieDao autowired");
+        logger.debug("[movieland] setMovieDao autowired");
     }
 }

@@ -1,6 +1,6 @@
 package com.ivandanylov.movieland.persistence.jdbc.mapper;
 
-import com.ivandanylov.movieland.entity.Movie;
+import com.ivandanylov.movieland.entity.Genre;
 import com.ivandanylov.movieland.persistence.jdbc.TestPersistenceJdbcConfig;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -11,12 +11,11 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
 import java.sql.*;
-import java.time.LocalDate;
 
-@DisplayName("Movie row mapper test")
+@DisplayName("Genre row mapper test")
 @SpringJUnitConfig(classes = {TestPersistenceJdbcConfig.class})
 @TestExecutionListeners(listeners = {DependencyInjectionTestExecutionListener.class})
-class MovieRowMapperTest {
+class GenreRowMapperTest {
     private String createTableSql;
     private String insertSql;
     private String getAllSql;
@@ -51,8 +50,7 @@ class MovieRowMapperTest {
 
     @Test
     void testMapRow() throws SQLException, ClassNotFoundException {
-        MovieRowMapper movieRowMapper = new MovieRowMapper();
-        LocalDate localDate = LocalDate.of(1980, 4, 9);
+        GenreRowMapper genreRowMapper = new GenreRowMapper();
 
         before();
 
@@ -61,37 +59,32 @@ class MovieRowMapperTest {
             ResultSet resultSet = statement.executeQuery(getAllSql);
             resultSet.next();
 
-            Movie actualMovie = movieRowMapper.mapRow(resultSet, 1);
+            Genre actualGenre= genreRowMapper.mapRow(resultSet, 1);
 
-            Assertions.assertNotNull(actualMovie);
-            Assertions.assertEquals(1, actualMovie.getId());
-            Assertions.assertEquals("Movie name", actualMovie.getNameRussian());
-            Assertions.assertEquals("Original movie name", actualMovie.getNameNative());
-            Assertions.assertEquals(localDate.getYear(), actualMovie.getYearOfRelease());
-            Assertions.assertEquals(123.45, actualMovie.getPrice());
-            Assertions.assertEquals(9.8, actualMovie.getRating());
-            Assertions.assertEquals("https://link.com/image.jpg", actualMovie.getPicturePath());
+            Assertions.assertNotNull(actualGenre);
+            Assertions.assertEquals(1, actualGenre.getId());
+            Assertions.assertEquals("Genre name", actualGenre.getName());
         } finally {
             after();
         }
     }
 
-    @Value("${database.movie.createTableSql}")
+    @Value("${database.genre.createTableSql}")
     void setCreateTableSql(String createTableSql) {
         this.createTableSql = createTableSql;
     }
 
-    @Value("${database.movie.insertSql}")
+    @Value("${database.genre.insertSql}")
     void setInsertSql(String insertSql) {
         this.insertSql = insertSql;
     }
 
-    @Value("${database.movie.getAllSql}")
+    @Value("${database.genre.getAllSql}")
     void setGetAllSql(String getAllSql) {
         this.getAllSql = getAllSql;
     }
 
-    @Value("${database.movie.dropTableSql}")
+    @Value("${database.genre.dropTableSql}")
     void setDropTableSql(String dropTableSql) {
         this.dropTableSql = dropTableSql;
     }

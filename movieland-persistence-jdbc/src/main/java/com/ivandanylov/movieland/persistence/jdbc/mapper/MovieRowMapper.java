@@ -11,14 +11,15 @@ import java.sql.SQLException;
 public class MovieRowMapper implements RowMapper<Movie> {
     @Override
     public Movie mapRow(ResultSet resultSet, int rowId) throws SQLException {
-        Movie movie = new Movie();
-        movie.setId(resultSet.getInt("id"));
-        movie.setNameRussian(resultSet.getString("name"));
-        movie.setNameNative(resultSet.getString("original_name"));
-        movie.setYearOfRelease(resultSet.getDate("issue_date").toLocalDate().getYear());
-        movie.setPrice(resultSet.getDouble("price"));
-        movie.setRating(resultSet.getDouble("rating"));
-        movie.setPicturePath(resultSet.getString("poster_link"));
+        Movie movie = new Movie.Builder()
+                .id(resultSet.getInt("id"))
+                .nameRussian(resultSet.getString("name"))
+                .nameNative(resultSet.getString("original_name"))
+                .yearOfRelease(resultSet.getDate("issue_date").toLocalDate().getYear())
+                .price(resultSet.getDouble("price"))
+                .rating(resultSet.getDouble("rating"))
+                .picturePath(resultSet.getString("poster_link"))
+                .build();
 
         return movie;
     }
