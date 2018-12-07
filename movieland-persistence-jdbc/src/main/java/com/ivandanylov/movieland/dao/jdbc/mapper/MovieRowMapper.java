@@ -1,4 +1,4 @@
-package com.ivandanylov.movieland.persistence.jdbc.mapper;
+package com.ivandanylov.movieland.dao.jdbc.mapper;
 
 import com.ivandanylov.movieland.entity.Movie;
 import org.springframework.jdbc.core.RowMapper;
@@ -11,7 +11,7 @@ import java.sql.SQLException;
 public class MovieRowMapper implements RowMapper<Movie> {
     @Override
     public Movie mapRow(ResultSet resultSet, int rowId) throws SQLException {
-        Movie movie = new Movie.Builder()
+        return new Movie.Builder()
                 .id(resultSet.getInt("id"))
                 .nameRussian(resultSet.getString("name"))
                 .nameNative(resultSet.getString("original_name"))
@@ -20,7 +20,5 @@ public class MovieRowMapper implements RowMapper<Movie> {
                 .rating(resultSet.getDouble("rating"))
                 .picturePath(resultSet.getString("poster_link"))
                 .build();
-
-        return movie;
     }
 }

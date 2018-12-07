@@ -1,7 +1,8 @@
-database:
+dao:
   connection:
     urlEnvironmentVariableName: "JDBC_DATABASE_URL"
     driverClassName: "org.postgresql.Driver"
+
   query:
     getAllMovies: >-
       SELECT
@@ -14,6 +15,7 @@ database:
         poster_link
       FROM
           movieland.movie;
+
     getRandomMovies: >-
       SELECT
         id,
@@ -29,12 +31,14 @@ database:
         random(),
         id
       LIMIT ?;
+
     getAllGenres: >-
       SELECT
         id,
         name
       FROM
         movieland.genre;
+
     getMoviesByGenreId: >-
       SELECT
         m.id,
@@ -50,5 +54,10 @@ database:
         JOIN movieland.movie m ON mg.movie_id = m.id
       WHERE
         g.id = ?;
+
   config:
     randomMovieRowsCount: 3
+
+  scheduler:
+    genreFixedDelayInMilliseconds: 14400000
+    genreInitialDelayInMilliseconds: 1000

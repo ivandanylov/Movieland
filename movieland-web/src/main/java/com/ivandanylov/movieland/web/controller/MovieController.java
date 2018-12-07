@@ -21,38 +21,34 @@ public class MovieController {
 
     @RequestMapping(path = "/test", method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
     public String getRoot() {
-        logger.debug("[movieland] Controller path /v1/test");
+        logger.debug("Controller path /v1/test");
 
         return "Controller alive";
     }
 
     @RequestMapping(path = "/movie", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<Movie> getAll() {
-        logger.debug("[movieland] Controller path /v1/movie");
+        logger.debug("Controller path /v1/movie");
 
         return movieService.getAll();
     }
 
     @RequestMapping(path = "/movie/random", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<Movie> getRandom() {
-        logger.debug("[movieland] Controller path /v1/movie/random");
+        logger.debug("Controller path /v1/movie/random");
 
         return movieService.getRandom();
     }
 
     @RequestMapping(path = "/movie/genre/{genreId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<Movie> getByGenreId(@PathVariable int genreId) {
-        logger.debug(String.format("[movieland] Controller path /v1/movie/genre/%d", genreId));
+        logger.debug("Controller path /v1/movie/genre/{}", genreId);
 
         return movieService.getByGenreId(genreId);
     }
 
     @Autowired
     public void setMovieService(MovieService movieService) {
-        logger.debug(String.format("[movieland] Movie service is null = %b", movieService == null));
-
         this.movieService = movieService;
-
-        logger.debug("[movieland] setMovieService autowired");
     }
 }

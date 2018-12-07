@@ -1,4 +1,4 @@
-package com.ivandanylov.movieland.persistence.jdbc.datasource;
+package com.ivandanylov.movieland.dao.jdbc.datasource;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
