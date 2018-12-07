@@ -1,4 +1,4 @@
-package com.ivandanylov.movieland.persistence.jdbc.mapper;
+package com.ivandanylov.movieland.dao.jdbc.mapper;
 
 import com.ivandanylov.movieland.entity.Genre;
 import org.springframework.jdbc.core.RowMapper;
@@ -11,11 +11,9 @@ import java.sql.SQLException;
 public class GenreRowMapper implements RowMapper<Genre> {
     @Override
     public Genre mapRow(ResultSet resultSet, int i) throws SQLException {
-        Genre genre = new Genre.Builder()
+        return new Genre.Builder()
                 .id(resultSet.getInt("id"))
                 .name(resultSet.getString("name"))
                 .build();
-
-        return genre;
     }
 }

@@ -1,4 +1,4 @@
-package com.ivandanylov.movieland.persistence.api;
+package com.ivandanylov.movieland.dao;
 
 import com.ivandanylov.movieland.entity.Genre;
 

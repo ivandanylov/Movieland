@@ -20,17 +20,13 @@ public class GenreController {
 
     @RequestMapping(path = "/genre", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<Genre> getAll() {
-        logger.debug("[movieland] Controller path /v1/genre");
+        logger.debug("Controller path /v1/genre");
 
         return genreService.getAll();
     }
 
     @Autowired
     public void setGenreService(GenreService genreService) {
-        logger.debug(String.format("[movieland] Genre service is null = %b", genreService == null));
-
         this.genreService = genreService;
-
-        logger.debug("[movieland] setGenreService autowired");
     }
 }

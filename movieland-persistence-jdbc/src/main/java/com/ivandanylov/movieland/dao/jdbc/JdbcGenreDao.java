@@ -1,10 +1,8 @@
-package com.ivandanylov.movieland.persistence.jdbc;
+package com.ivandanylov.movieland.dao.jdbc;
 
 import com.ivandanylov.movieland.entity.Genre;
-import com.ivandanylov.movieland.persistence.api.GenreDao;
-import com.ivandanylov.movieland.persistence.jdbc.mapper.GenreRowMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.ivandanylov.movieland.dao.GenreDao;
+import com.ivandanylov.movieland.dao.jdbc.mapper.GenreRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -14,16 +12,12 @@ import java.util.List;
 
 @Repository
 public class JdbcGenreDao implements GenreDao {
-    private final static Logger logger = LoggerFactory.getLogger(JdbcGenreDao.class);
-
     private JdbcTemplate jdbcTemplate;
     private GenreRowMapper movieRowMapper;
     private String getAllGenresSql;
 
     @Override
     public List<Genre> getAll() {
-        logger.debug(String.format("[movieland] Get all genres sql = '%s'", getAllGenresSql));
-
         return jdbcTemplate.query(getAllGenresSql, movieRowMapper);
     }
 
@@ -37,7 +31,7 @@ public class JdbcGenreDao implements GenreDao {
         this.movieRowMapper = movieRowMapper;
     }
 
-    @Value("${database.query.getAllGenres}")
+    @Value("${dao.query.getAllGenres}")
     public void setGetAllGenresSql(String getAllGenresSql) {
         this.getAllGenresSql = getAllGenresSql;
     }

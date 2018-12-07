@@ -1,6 +1,6 @@
-package com.ivandanylov.movieland.persistence.jdbc.config;
+package com.ivandanylov.movieland.dao.jdbc.config;
 
-import com.ivandanylov.movieland.persistence.jdbc.datasource.HKDataSource;
+import com.ivandanylov.movieland.dao.jdbc.datasource.HKDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,20 +24,18 @@ public class PersistenceJdbcConfig {
     public static PropertySourcesPlaceholderConfigurer dbProperties() {
         PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer = new PropertySourcesPlaceholderConfigurer();
         YamlPropertiesFactoryBean yaml = new YamlPropertiesFactoryBean();
-        yaml.setResources(new ClassPathResource("db.yml"));
+        yaml.setResources(new ClassPathResource("dao.yml"));
         propertySourcesPlaceholderConfigurer.setProperties(yaml.getObject());
         return propertySourcesPlaceholderConfigurer;
     }
 
     @Bean
     public DataSource hkDataSource() {
-        logger.info("[movieland] Start initializing constructor");
-        logger.info(String.format("[movieland] Database properties: driverClassName = %s, jdbcUrl = %s", driverClassName, jdbcUrl));
+        logger.debug("Database properties: driverClassName = '{}', jdbcUrl = '{}'", driverClassName, jdbcUrl);
 
         DataSource dataSource = HKDataSource.getDataSource(driverClassName, System.getenv(jdbcUrl));
 
-        logger.info("[movieland] HKDataSource initialized");
-        logger.info("[movieland] End initializing DbConfig constructor");
+        logger.info("HKDataSource initialized");
 
         return dataSource;
     }
@@ -52,17 +50,13 @@ public class PersistenceJdbcConfig {
         return new NamedParameterJdbcTemplate(dataSource);
     }
 
-    @Value("${database.connection.driverClassName}")
+    @Value("${dao.connection.driverClassName}")
     public void setDriverClassName(String driverClassName) {
-        logger.debug(String.format("[movieland] Injected driverClassName = '%s'", driverClassName));
-
         this.driverClassName = driverClassName;
     }
 
-    @Value("${database.connection.urlEnvironmentVariableName}")
+    @Value("${dao.connection.urlEnvironmentVariableName}")
     public void setJdbcUrl(String jdbcUrl) {
-        logger.debug(String.format("[movieland] Injected urlEnvironmentVariableName = '%s'", jdbcUrl));
-
         this.jdbcUrl = jdbcUrl;
     }
 }
