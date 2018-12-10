@@ -1,27 +1,36 @@
 package com.ivandanylov.movieland.dao.jdbc;
 
-import com.ivandanylov.movieland.entity.Movie;
 import com.ivandanylov.movieland.dao.MovieDao;
 import com.ivandanylov.movieland.dao.jdbc.mapper.MovieRowMapper;
+import com.ivandanylov.movieland.dao.utils.SqlGenerator;
+import com.ivandanylov.movieland.entity.Movie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class JdbcMovieDao implements MovieDao {
     private JdbcTemplate jdbcTemplate;
     private MovieRowMapper movieRowMapper;
+    private SqlGenerator sqlGenerator;
     private String getAllMoviesSql;
     private String getRandomMoviesSql;
     private String getMoviesByGenreIdSql;
     private int randomRowsCount;
 
+    @Deprecated
     @Override
     public List<Movie> getAll() {
         return jdbcTemplate.query(getAllMoviesSql, movieRowMapper);
+    }
+
+    @Override
+    public List<Movie> getAll(Map<String, String> requestParameters) {
+        return jdbcTemplate.query(sqlGenerator.generateMovieSortSql(getAllMoviesSql, requestParameters), movieRowMapper);
     }
 
     @Override
@@ -42,6 +51,11 @@ public class JdbcMovieDao implements MovieDao {
     @Autowired
     public void setMovieRowMapper(MovieRowMapper movieRowMapper) {
         this.movieRowMapper = movieRowMapper;
+    }
+
+    @Autowired
+    public void setSqlGenerator(SqlGenerator sqlGenerator) {
+        this.sqlGenerator = sqlGenerator;
     }
 
     @Value("${dao.query.getAllMovies}")
