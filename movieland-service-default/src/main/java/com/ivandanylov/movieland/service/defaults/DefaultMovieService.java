@@ -7,14 +7,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class DefaultMovieService implements MovieService {
     private MovieDao movieDao;
 
+    @Deprecated
     @Override
     public List<Movie> getAll() {
         return movieDao.getAll();
+    }
+
+    @Override
+    public List<Movie> getAll(Map<String, String> requestParameters) {
+        return movieDao.getAll(requestParameters);
     }
 
     @Override
