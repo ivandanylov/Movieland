@@ -4,13 +4,13 @@ import com.ivandanylov.movieland.dao.MovieDao;
 import com.ivandanylov.movieland.dao.jdbc.mapper.MovieRowMapper;
 import com.ivandanylov.movieland.dao.utils.SqlGenerator;
 import com.ivandanylov.movieland.entity.Movie;
+import com.ivandanylov.movieland.request.parameters.MovieGetAllRequestParameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public class JdbcMovieDao implements MovieDao {
@@ -22,14 +22,8 @@ public class JdbcMovieDao implements MovieDao {
     private String getMoviesByGenreIdSql;
     private int randomRowsCount;
 
-    @Deprecated
     @Override
-    public List<Movie> getAll() {
-        return jdbcTemplate.query(getAllMoviesSql, movieRowMapper);
-    }
-
-    @Override
-    public List<Movie> getAll(Map<String, String> requestParameters) {
+    public List<Movie> getAll(MovieGetAllRequestParameters requestParameters) {
         return jdbcTemplate.query(sqlGenerator.generateMovieSortSql(getAllMoviesSql, requestParameters), movieRowMapper);
     }
 

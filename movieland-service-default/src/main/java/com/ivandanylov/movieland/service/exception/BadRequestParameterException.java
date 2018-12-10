@@ -1,4 +1,4 @@
-package com.ivandanylov.movieland.web.controller.exception;
+package com.ivandanylov.movieland.service.exception;
 
 public class BadRequestParameterException extends RuntimeException {
     public BadRequestParameterException(String message) {

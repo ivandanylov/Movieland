@@ -1,8 +1,8 @@
 package com.ivandanylov.movieland.web.controller;
 
 import com.ivandanylov.movieland.entity.Movie;
+import com.ivandanylov.movieland.request.parameters.MovieGetAllRequestParameters;
 import com.ivandanylov.movieland.service.api.MovieService;
-import com.ivandanylov.movieland.web.controller.validator.ControllerParametersValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/movie")
@@ -18,16 +17,14 @@ public class MovieController {
     private final static Logger logger = LoggerFactory.getLogger(MovieController.class);
 
     private MovieService movieService;
-    private ControllerParametersValidator parametersValidator;
 
     @RequestMapping(
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<Movie> getAll(
-            @RequestParam Map<String, String> requestParameters) {
+    public List<Movie> getAll(MovieGetAllRequestParameters requestParameters) {
         logger.debug("Controller path /v1/movie with params: {}", requestParameters);
 
-        return movieService.getAll(parametersValidator.validateMovieGetAll(requestParameters));
+        return movieService.getAll(requestParameters);
     }
 
     @RequestMapping(
@@ -53,10 +50,5 @@ public class MovieController {
     @Autowired
     public void setMovieService(MovieService movieService) {
         this.movieService = movieService;
-    }
-
-    @Autowired
-    public void setParametersValidator(ControllerParametersValidator parametersValidator) {
-        this.parametersValidator = parametersValidator;
     }
 }

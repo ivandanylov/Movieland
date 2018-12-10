@@ -1,8 +1,8 @@
 package com.ivandanylov.movieland.web.controller;
 
 import com.ivandanylov.movieland.entity.Movie;
+import com.ivandanylov.movieland.request.parameters.MovieGetAllRequestParameters;
 import com.ivandanylov.movieland.service.defaults.DefaultMovieService;
-import com.ivandanylov.movieland.web.controller.validator.ControllerParametersValidator;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,9 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
@@ -33,9 +31,6 @@ class MovieControllerTest {
 
     @Mock
     private DefaultMovieService movieServiceMock;
-
-    @Mock
-    private ControllerParametersValidator parametersValidator;
 
     @InjectMocks
     private MovieController movieController = new MovieController();
@@ -77,8 +72,9 @@ class MovieControllerTest {
 
     @Test
     void testGetAllMovies() throws Exception {
-        Map<String, String> requestParameters = new HashMap<>();
-        when(movieServiceMock.getAll(requestParameters)).thenReturn(movies);
+        MovieGetAllRequestParameters movieGetAllRequestParameters = new MovieGetAllRequestParameters.Builder().build();
+
+        when(movieServiceMock.getAll(movieGetAllRequestParameters)).thenReturn(movies);
 
         mockMvc.perform(get("/movie"))
                 .andExpect(status().isOk())
@@ -106,7 +102,7 @@ class MovieControllerTest {
                 .andExpect(jsonPath("$[2].rating", equalTo(3.33)))
                 .andExpect(jsonPath("$[2].picturePath", equalTo("https://link.com/image_3.jpg")));
 
-        verify(movieServiceMock, times(1)).getAll(requestParameters);
+        verify(movieServiceMock, times(1)).getAll(movieGetAllRequestParameters);
 
         verifyNoMoreInteractions(movieServiceMock);
     }
