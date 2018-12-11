@@ -1,6 +1,6 @@
 package com.ivandanylov.movieland.web.controller.exceptionhandler;
 
-import com.ivandanylov.movieland.web.controller.exception.BadRequestParameterException;
+import com.ivandanylov.movieland.service.exception.BadRequestParameterException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -17,9 +17,9 @@ public class ControllerExceptionHandler {
 
     @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = BAD_REQUEST_MESSAGE)
     @ExceptionHandler(BadRequestParameterException.class)
-    public ResponseEntity handleIllegalArgumentException(Exception e) {
-        logger.error(e.getMessage());
+    public ResponseEntity<?> handleIllegalArgumentException(Exception e) {
+        logger.error("Error: ", e);
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        return ResponseEntity.badRequest().build();
     }
 }

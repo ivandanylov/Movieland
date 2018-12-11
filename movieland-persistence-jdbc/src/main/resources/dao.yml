@@ -14,7 +14,7 @@ dao:
         price,
         poster_link
       FROM
-          movieland.movie;
+          movieland.movie
 
     getRandomMovies: >-
       SELECT
@@ -30,14 +30,14 @@ dao:
       ORDER BY
         random(),
         id
-      LIMIT ?;
+      LIMIT ?
 
     getAllGenres: >-
       SELECT
         id,
         name
       FROM
-        movieland.genre;
+        movieland.genre
 
     getMoviesByGenreId: >-
       SELECT
@@ -53,7 +53,7 @@ dao:
         JOIN movieland.bridge_movie_genre mg ON g.id = mg.genre_id
         JOIN movieland.movie m ON mg.movie_id = m.id
       WHERE
-        g.id = ?;
+        g.id = ?
 
   config:
     randomMovieRowsCount: 3
