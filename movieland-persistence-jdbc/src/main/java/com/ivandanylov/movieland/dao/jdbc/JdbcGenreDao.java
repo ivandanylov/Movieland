@@ -13,12 +13,27 @@ import java.util.List;
 @Repository
 public class JdbcGenreDao implements GenreDao {
     private JdbcTemplate jdbcTemplate;
-    private GenreRowMapper movieRowMapper;
+    private GenreRowMapper genreRowMapper;
+
     private String getAllGenresSql;
+    private String getGenreByIdSql;
+    private String getGenresByIdListSql;
+
+    @Override
+    public Genre getById(int id) {
+        return jdbcTemplate.queryForObject(getGenreByIdSql, genreRowMapper, id);
+    }
 
     @Override
     public List<Genre> getAll() {
-        return jdbcTemplate.query(getAllGenresSql, movieRowMapper);
+        return jdbcTemplate.query(getAllGenresSql, genreRowMapper);
+    }
+
+    @Override
+    public List<Genre> enrich(List<Genre> genres) {
+        return jdbcTemplate.query(getGenresByIdListSql, genreRowMapper, genres.stream()
+                .map(genre -> genre.getId())
+                .toArray());
     }
 
     @Autowired
@@ -27,12 +42,22 @@ public class JdbcGenreDao implements GenreDao {
     }
 
     @Autowired
-    public void setMovieRowMapper(GenreRowMapper movieRowMapper) {
-        this.movieRowMapper = movieRowMapper;
+    public void setGenreRowMapper(GenreRowMapper genreRowMapper) {
+        this.genreRowMapper = genreRowMapper;
     }
 
     @Value("${dao.query.getAllGenres}")
     public void setGetAllGenresSql(String getAllGenresSql) {
         this.getAllGenresSql = getAllGenresSql;
+    }
+
+    @Value("${dao.query.getGenreById}")
+    public void setGetGenreByIdSql(String getGenreByIdSql) {
+        this.getGenreByIdSql = getGenreByIdSql;
+    }
+
+    @Value("${dao.query.getGenresByIdList}")
+    public void setGetGenresByIdListSql(String getGenresByIdListSql) {
+        this.getGenresByIdListSql = getGenresByIdListSql;
     }
 }

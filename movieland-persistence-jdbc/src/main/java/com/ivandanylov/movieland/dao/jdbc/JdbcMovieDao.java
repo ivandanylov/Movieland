@@ -1,6 +1,7 @@
 package com.ivandanylov.movieland.dao.jdbc;
 
 import com.ivandanylov.movieland.dao.MovieDao;
+import com.ivandanylov.movieland.dao.jdbc.mapper.MovieAllDataRowMapper;
 import com.ivandanylov.movieland.dao.jdbc.mapper.MovieRowMapper;
 import com.ivandanylov.movieland.dao.utils.SqlGenerator;
 import com.ivandanylov.movieland.entity.Movie;
@@ -16,11 +17,20 @@ import java.util.List;
 public class JdbcMovieDao implements MovieDao {
     private JdbcTemplate jdbcTemplate;
     private MovieRowMapper movieRowMapper;
+    private MovieAllDataRowMapper movieAllDataRowMapper;
     private SqlGenerator sqlGenerator;
+
+    private String getMovieByIdSql;
     private String getAllMoviesSql;
     private String getRandomMoviesSql;
     private String getMoviesByGenreIdSql;
+
     private int randomRowsCount;
+
+    @Override
+    public Movie getById(int movieId) {
+        return jdbcTemplate.queryForObject(getMovieByIdSql, movieAllDataRowMapper, movieId);
+    }
 
     @Override
     public List<Movie> getAll(MovieGetAllRequestParameters requestParameters) {
@@ -48,8 +58,18 @@ public class JdbcMovieDao implements MovieDao {
     }
 
     @Autowired
+    public void setMovieAllDataRowMapper(MovieAllDataRowMapper movieAllDataRowMapper) {
+        this.movieAllDataRowMapper = movieAllDataRowMapper;
+    }
+
+    @Autowired
     public void setSqlGenerator(SqlGenerator sqlGenerator) {
         this.sqlGenerator = sqlGenerator;
+    }
+
+    @Value("${dao.query.getMovieById}")
+    public void setGetMovieByIdSql(String getMovieByIdSql) {
+        this.getMovieByIdSql = getMovieByIdSql;
     }
 
     @Value("${dao.query.getAllMovies}")

@@ -13,6 +13,11 @@ public class DefaultGenreService implements GenreService {
     private GenreDao genreDao;
 
     @Override
+    public Genre getById(int id) {
+        return null;
+    }
+
+    @Override
     public List<Genre> getAll() {
         return genreDao.getAll();
     }

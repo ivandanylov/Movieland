@@ -4,12 +4,28 @@ dao:
     driverClassName: "org.postgresql.Driver"
 
   query:
+    getMovieById: >-
+      SELECT
+        id,
+        name,
+        original_name,
+        issue_date,
+        description,
+        rating,
+        price,
+        poster_link
+      FROM
+        movieland.movie
+      WHERE
+        id = ?
+
     getAllMovies: >-
       SELECT
         id,
         name,
         original_name,
         issue_date,
+        description,
         rating,
         price,
         poster_link
@@ -22,6 +38,7 @@ dao:
         name,
         original_name,
         issue_date,
+        description,
         rating,
         price,
         poster_link
@@ -32,19 +49,13 @@ dao:
         id
       LIMIT ?
 
-    getAllGenres: >-
-      SELECT
-        id,
-        name
-      FROM
-        movieland.genre
-
     getMoviesByGenreId: >-
       SELECT
         m.id,
         m.name,
         m.original_name,
         m.issue_date,
+        m.description,
         m.rating,
         m.price,
         m.poster_link
@@ -55,9 +66,113 @@ dao:
       WHERE
         g.id = ?
 
+    getAllGenres: >-
+      SELECT
+        id,
+        name
+      FROM
+        movieland.genre
+      ORDER BY
+        name
+
+    getGenreById: >-
+      SELECT
+        id,
+        name
+      FROM
+        movieland.genre
+      WHERE
+        id = ?
+
+    getGenresByIdList: >-
+      SELECT
+        id,
+        name
+      FROM
+        movieland.genre
+      WHERE
+        id IN (SELECT UNNEST(?))
+      ORDER BY
+        name
+
+    getCountryById: >-
+      SELECT
+        id,
+        name
+      FROM
+        movieland.country
+      WHERE
+        id = ?
+
+    getAllCountries: >-
+      SELECT
+        id,
+        name
+      FROM
+        movieland.country
+      ORDER BY
+        name
+
+    getCountriesByIdList: >-
+      SELECT
+        id,
+        name
+      FROM
+        movieland.country
+      WHERE
+        id IN (SELECT UNNEST(?))
+      ORDER BY
+        name
+
+    getUserById: >-
+      SELECT
+        id,
+        login
+      FROM
+        movieland.users
+      WHERE
+        id = ?
+
+    getAllUsers: >-
+      SELECT
+        id,
+        login
+      FROM
+        movieland.users
+      ORDER BY
+        login
+
+    getUsersByIdList: >-
+      SELECT
+        id,
+        login
+      FROM
+        movieland.users
+      WHERE
+        id IN (SELECT UNNEST(?))
+      ORDER BY
+        login
+
+    getReviewsByMovieId: >-
+      SELECT
+        id,
+        user_id,
+        review_text
+      FROM
+        movieland.review
+      WHERE
+        movie_id = ?
+      ORDER BY
+        review_datetime DESC
+
   config:
     randomMovieRowsCount: 3
 
   scheduler:
-    genreFixedDelayInMilliseconds: 14400000 #4*60*60*1000 (4h in milliseconds)
+    #4*60*60*1000 (4h in milliseconds)
+    genreFixedDelayInMilliseconds: 14400000
     genreInitialDelayInMilliseconds: 1000
+
+    #4*60*60*1000 (4h in milliseconds)
+    countryFixedDelayInMilliseconds: 14400000
+    countryInitialDelayInMilliseconds: 1000

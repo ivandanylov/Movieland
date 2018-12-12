@@ -19,6 +19,17 @@ public class MovieController {
     private MovieService movieService;
 
     @RequestMapping(
+            value = "/{movieId}",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
+    )
+    public Movie getById(@PathVariable int movieId) {
+        logger.debug("Controller path /v1/movie/{}", movieId);
+
+        return movieService.getById(movieId);
+    }
+
+    @RequestMapping(
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<Movie> getAll(MovieGetAllRequestParameters requestParameters) {

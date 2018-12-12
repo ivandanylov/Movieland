@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class SqlGenerator {
     public String generateMovieSortSql(String sql, MovieGetAllRequestParameters requestParameters) {
-        if (requestParameters == null || !requestParameters.isSorted()) {
+        if (!requestParameters.isSorted()) {
             return sql;
         }
 

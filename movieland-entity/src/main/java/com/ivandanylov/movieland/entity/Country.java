@@ -2,11 +2,11 @@ package com.ivandanylov.movieland.entity;
 
 import java.util.Objects;
 
-public class Genre {
+public class Country {
     private int id;
     private String name;
 
-    public Genre() {
+    public Country() {
     }
 
     public int getId() {
@@ -18,48 +18,45 @@ public class Genre {
     }
 
     @Override
-    public String toString() {
-        return "Genre{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }
 
-        if (!(obj instanceof Genre)) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
 
-        Genre genre = (Genre) obj;
+        Country country = (Country) obj;
 
-        return id == genre.id
-                && Objects.equals(name, genre.name);
+        return id == country.id &&
+                name.equals(country.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
 
     public static class Builder {
-        private Genre genre;
+        private Country country;
 
         public Builder() {
-            genre = new Genre();
+            country = new Country();
         }
 
-        public Genre build() {
-            return genre;
+        public Country build() {
+            return country;
         }
 
         public Builder id(int value) {
-            genre.id = value;
+            country.id = value;
 
             return this;
         }
 
         public Builder name(String value) {
-            genre.name = value;
+            country.name = value;
 
             return this;
         }

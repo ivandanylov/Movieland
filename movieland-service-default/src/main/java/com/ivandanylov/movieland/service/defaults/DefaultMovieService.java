@@ -16,10 +16,13 @@ public class DefaultMovieService implements MovieService {
     private MovieGetAllRequestParametersValidator getAllRequestParametersValidator;
 
     @Override
+    public Movie getById(int movieId) {
+        return movieDao.getById(movieId);
+    }
+
+    @Override
     public List<Movie> getAll(MovieGetAllRequestParameters requestParameters) {
-        if (getAllRequestParametersValidator != null) {
-            getAllRequestParametersValidator.validateRequestParameters(requestParameters);
-        }
+        getAllRequestParametersValidator.validateRequestParameters(requestParameters);
 
         return movieDao.getAll(requestParameters);
     }

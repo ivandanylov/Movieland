@@ -33,6 +33,11 @@ public class CachedGenreDao implements GenreDao {
     }
 
     @Override
+    public Genre getById(int id) {
+        return genres.get(id);
+    }
+
+    @Override
     public List<Genre> getAll() {
         return new ArrayList<>(genres.values());
     }
